@@ -7,7 +7,8 @@ interface HeaderProps {}
 const Header: FC<HeaderProps> = ({}) => {
   return (
     <header>
-      <div className='flex flex-row justify-between space-x-4 p-4 bg-gray-400/10'>
+      <div className='absolute top-0 left-0 w-full h-96 bg-gradient-to-br from-purple-300 to-blue-300 opacity-50 filter blur-3xl -z-10'></div>
+      <div className='flex flex-row justify-between space-x-4 p-4 bg-gray-400/5'>
         <Image
           src='/assets/images/trello-logo.png'
           alt='Trello Logo'
