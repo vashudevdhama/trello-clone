@@ -46,6 +46,54 @@ const Board: FC<BoardProps> = ({}) => {
       const columns = Array.from(board.columns);
       const startColIndex = columns[Number(source.droppableId)];
       const endColIndex = columns[Number(destination.droppableId)];
+
+      const startCol: Column = {
+        id: startColIndex[0],
+        items: startColIndex[1].items,
+      };
+
+      const endCol: Column = {
+        id: endColIndex[0],
+        items: endColIndex[1].items,
+      };
+
+      if (!startCol || !endCol) return;
+      if (source.index === destination.index && startCol === endCol) return;
+
+      const newItems = startCol.items;
+      const [itemMoved] = newItems.splice(source.index, 1);
+
+      if (startCol.id === endCol.id) {
+        // same column task drag
+        newItems.splice(destination.index, 0, itemMoved);
+        const newCol = {
+          id: startCol.id,
+          items: newItems,
+        };
+        const newColumns = new Map(board.columns);
+        newColumns.set(startCol.id, newCol);
+
+        setBoardState({ ...board, columns: newColumns });
+      } else {
+        // another column task drag
+        const endItems = Array.from(endCol.items);
+        endItems.splice(destination.index, 0, itemMoved);
+
+        const newColumns = new Map(board.columns);
+        const newCol = {
+          id: startCol.id,
+          items: newItems,
+        };
+
+        newColumns.set(startCol.id, newCol);
+        newColumns.set(endCol.id, {
+          id: endCol.id,
+          items: endItems,
+        });
+
+        // update local storage
+        setBoardState({ ...board, columns: newColumns });
+      }
     }
   };
 
