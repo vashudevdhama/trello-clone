@@ -13,9 +13,10 @@ import Column from './Column';
 interface BoardProps {}
 
 const Board: FC<BoardProps> = ({}) => {
-  const [board, getBoard] = useBoardStore((state) => [
+  const [board, getBoard, setBoardState] = useBoardStore((state) => [
     state.board,
     state.getBoard,
+    state.setBoardState,
   ]);
 
   useEffect(() => {
@@ -23,7 +24,30 @@ const Board: FC<BoardProps> = ({}) => {
   }, [getBoard]);
   console.log(board);
 
-  const handleOnDragEnd = (result: DropResult) => {};
+  const handleOnDragEnd = (result: DropResult) => {
+    const { destination, source, type } = result;
+    console.log({ destination, source, type });
+
+    if (!destination) return;
+
+    // column drag
+    if (type === 'column') {
+      const entries = Array.from(board.columns.entries());
+      const [removed] = entries.splice(source.index, 1);
+      entries.splice(destination.index, 0, removed);
+      const rearrangedColumns = new Map(entries);
+      setBoardState({
+        ...board,
+        columns: rearrangedColumns,
+      });
+    }
+    // card drag
+    else if (type === 'card') {
+      const columns = Array.from(board.columns);
+      const startColIndex = columns[Number(source.droppableId)];
+      const endColIndex = columns[Number(destination.droppableId)];
+    }
+  };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

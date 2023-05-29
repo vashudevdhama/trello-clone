@@ -12,6 +12,12 @@ export const getItemsGroupedByColumn = async () => {
       {
         id: 'alpha2',
         created_at: '2023-05-27T20:15:23.130Z',
+        title: 'Play Cricket',
+        status: 'todo',
+      },
+      {
+        id: 'alpha3',
+        created_at: '2023-05-27T20:15:23.130Z',
         title: 'Play football',
         status: 'inprogress',
       },
@@ -40,7 +46,7 @@ export const getItemsGroupedByColumn = async () => {
 
   const columnTypes: ColumnType[] = ['todo', 'inprogress', 'done'];
   for (const columnType of columnTypes) {
-    if (columns.get(columnType)) {
+    if (!columns.get(columnType)) {
       columns.set(columnType, {
         id: columnType,
         items: [],
