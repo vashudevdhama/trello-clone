@@ -6,6 +6,9 @@ interface BoardState {
   getBoard: () => void;
   setBoardState: (board: Board) => void;
   updateTodoInDB: (item: Item, columnId: ColumnType) => void;
+
+  searchString: string;
+  setSearchString: (searchString: string) => void;
 }
 
 export const useBoardStore = create<BoardState>()((set) => ({
@@ -22,4 +25,6 @@ export const useBoardStore = create<BoardState>()((set) => ({
     //TODO: save in local storage
     // update status to columnId by item.id
   },
+  searchString: '',
+  setSearchString: (searchString) => set({ searchString }),
 }));

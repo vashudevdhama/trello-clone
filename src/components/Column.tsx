@@ -1,3 +1,4 @@
+import { useBoardStore } from '@/store/boardstore';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { FC } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
@@ -18,6 +19,8 @@ const idToColumnText: {
 };
 
 const Column: FC<ColumnProps> = ({ id, items, index }) => {
+  const [searchString] = useBoardStore((state) => [state.searchString]);
+
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
@@ -39,29 +42,45 @@ const Column: FC<ColumnProps> = ({ id, items, index }) => {
                 <h2 className='flex justify-between font-bold text-md p-2 py-1'>
                   {idToColumnText[id]}{' '}
                   <span className='text-gray-500 bg-gray-200 rounded-full p-2 text-sm leading-3 font-normal'>
-                    {items.length}
+                    {!searchString
+                      ? items.length
+                      : items.filter((item) =>
+                          item.title
+                            .toLowerCase()
+                            .includes(searchString.toLowerCase())
+                        ).length}
                   </span>
                 </h2>
 
                 <div className='space-y-2'>
-                  {items.map((item, index) => (
-                    <Draggable
-                      key={item.id}
-                      draggableId={item.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <ItemCard
-                          item={item}
-                          index={index}
-                          id={id}
-                          innerRef={provided.innerRef}
-                          draggableProps={provided.draggableProps}
-                          dragHandleProps={provided.dragHandleProps}
-                        />
-                      )}
-                    </Draggable>
-                  ))}
+                  {items.map((item, index) => {
+                    if (
+                      searchString &&
+                      !item.title
+                        .toLowerCase()
+                        .includes(searchString.toLowerCase())
+                    )
+                      return null;
+
+                    return (
+                      <Draggable
+                        key={item.id}
+                        draggableId={item.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <ItemCard
+                            item={item}
+                            index={index}
+                            id={id}
+                            innerRef={provided.innerRef}
+                            draggableProps={provided.draggableProps}
+                            dragHandleProps={provided.dragHandleProps}
+                          />
+                        )}
+                      </Draggable>
+                    );
+                  })}
 
                   {provided.placeholder}
 

@@ -1,10 +1,17 @@
+'use client';
+
 import Image from 'next/image';
 import { FC } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useBoardStore } from '@/store/boardstore';
 
 interface HeaderProps {}
 
 const Header: FC<HeaderProps> = ({}) => {
+  const [searchString, setSearchString] = useBoardStore((state) => [
+    state.searchString,
+    state.setSearchString,
+  ]);
   return (
     <header>
       <div className='absolute top-0 left-0 w-full h-96 bg-gradient-to-br from-purple-300 to-blue-300 opacity-50 filter blur-3xl -z-10'></div>
@@ -25,6 +32,8 @@ const Header: FC<HeaderProps> = ({}) => {
               type='text'
               placeholder='Search'
               className='flex-1 outline-none py-2'
+              value={searchString}
+              onChange={(e) => setSearchString(e.target.value)}
             />
             <button type='submit' hidden>
               Search
