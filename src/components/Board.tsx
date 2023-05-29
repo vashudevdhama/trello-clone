@@ -13,11 +13,14 @@ import Column from './Column';
 interface BoardProps {}
 
 const Board: FC<BoardProps> = ({}) => {
-  const [board, getBoard, setBoardState] = useBoardStore((state) => [
-    state.board,
-    state.getBoard,
-    state.setBoardState,
-  ]);
+  const [board, getBoard, setBoardState, updateTodoInDB] = useBoardStore(
+    (state) => [
+      state.board,
+      state.getBoard,
+      state.setBoardState,
+      state.updateTodoInDB,
+    ]
+  );
 
   useEffect(() => {
     getBoard();
@@ -92,6 +95,8 @@ const Board: FC<BoardProps> = ({}) => {
         });
 
         // update local storage
+        updateTodoInDB(itemMoved, endCol.id);
+
         setBoardState({ ...board, columns: newColumns });
       }
     }
