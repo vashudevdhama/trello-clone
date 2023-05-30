@@ -1,4 +1,5 @@
 import { useBoardStore } from '@/store/boardstore';
+import { useModalStore } from '@/store/ModalStore';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import { FC } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
@@ -19,8 +20,19 @@ const idToColumnText: {
 };
 
 const Column: FC<ColumnProps> = ({ id, items, index }) => {
-  const [searchString] = useBoardStore((state) => [state.searchString]);
+  const [searchString, setNewTaskType] = useBoardStore((state) => [
+    state.searchString,
+    state.setNewTaskType,
+  ]);
+  const [isOpen, openModal] = useModalStore((state) => [
+    state.isOpen,
+    state.openModal,
+  ]);
 
+  const handleAddItem = () => {
+    setNewTaskType(id);
+    openModal();
+  };
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) => (
@@ -86,7 +98,10 @@ const Column: FC<ColumnProps> = ({ id, items, index }) => {
 
                   <div className='flex items-end justify-end p-2'>
                     <button className='text-green-500 hover:text-green-600'>
-                      <PlusCircleIcon className='h-10 w-10' />
+                      <PlusCircleIcon
+                        className='h-10 w-10'
+                        onClick={handleAddItem}
+                      />
                     </button>
                   </div>
                 </div>

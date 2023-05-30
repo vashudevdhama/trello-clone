@@ -3,24 +3,24 @@ export const getItemsGroupedByColumn = async () => {
   const data: { total: number; documents: Item[] } = {
     total: 2,
     documents: [
-      {
-        id: 'alpha1',
-        created_at: '2023-05-27T20:19:23.130Z',
-        title: 'Do your homework on time',
-        status: 'todo',
-      },
-      {
-        id: 'alpha2',
-        created_at: '2023-05-27T20:15:23.130Z',
-        title: 'Play Cricket',
-        status: 'todo',
-      },
-      {
-        id: 'alpha3',
-        created_at: '2023-05-27T20:15:23.130Z',
-        title: 'Play football',
-        status: 'inprogress',
-      },
+      // {
+      //   id: 'alpha1',
+      //   created_at: '2023-05-27T20:19:23.130Z',
+      //   title: 'Do your homework on time',
+      //   status: 'todo',
+      // },
+      // {
+      //   id: 'alpha2',
+      //   created_at: '2023-05-27T20:15:23.130Z',
+      //   title: 'Play Cricket',
+      //   status: 'todo',
+      // },
+      // {
+      //   id: 'alpha3',
+      //   created_at: '2023-05-27T20:15:23.130Z',
+      //   title: 'Play football',
+      //   status: 'inprogress',
+      // },
     ],
   };
 
